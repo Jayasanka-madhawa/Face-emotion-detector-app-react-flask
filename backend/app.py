@@ -1,4 +1,4 @@
-from flask import Flask, request,jsonify
+from flask import Flask, render_template, request,jsonify
 import cv2
 import numpy as np 
 from tensorflow.keras.models import load_model
@@ -9,12 +9,9 @@ CORS(app)
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
-
-
-
 @app.route('/')
 def index():
-	return 'hello'
+	return "hello"
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
@@ -35,7 +32,6 @@ def predict():
 		cropped = image[y:y+h, x:x+w]
 
 
-	
 	cv2.imwrite('static/after.jpg', image)
 	try:
 		cv2.imwrite('static/cropped.jpg', cropped)
@@ -66,12 +62,7 @@ def predict():
 	final_pred = label_map[pred]
 
 
-	#return render_template('predict.html', data=final_pred)
-	
-	
-	return jsonify(final_pred),
-
-
+	return jsonify(final_pred)
 
 
 if __name__ == "__main__":
